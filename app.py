@@ -22,22 +22,22 @@ def index():
     db.create_all()
     
     if request.method == "POST":
-        task_content = request.form['content']
-        if task_content:
-            new_task = Todo(content=task_content)
+        task_content = request.form['content']  
+        if task_content: #if user actually inputs some task to be recorded
+            new_task = Todo(content=task_content)   
         
             try:
-                db.session.add(new_task)
-                db.session.commit()
-                return redirect('/')
+                db.session.add(new_task) #add task into database
+                db.session.commit()       #commit
+                return redirect('/')       #redirect to the main page
             except:
-                return "There was an issue adding your task"
+                return "There was an issue adding your task" 
         else:
             return "BSDK TASK KAUN ADD KAREGA?"
             
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('index.html', tasks=tasks)
+        tasks = Todo.query.order_by(Todo.date_created).all()    
+        return render_template('index.html', tasks=tasks)    
 
 @app.route('/delete/<int:id>')
 def delte(id):
